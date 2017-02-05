@@ -27,11 +27,11 @@ def save(ps, n, d, i, note):
 	ID = 0
 	nf = fix_str(n)
 	folder = 'D://other/test2/{}/{}/{}/'.format(d, nf, i)
-	save_note(folder, note)
 	for p in ps:
 		filename = '{}.jpg'.format(ID)
 		save_file(p, folder, filename)
 		ID += 1
+	save_note(folder, note)
 
 def get_id(data, name, district, interval, place_id):
 	ID = 0
