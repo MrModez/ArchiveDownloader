@@ -1,12 +1,11 @@
 import os
-import json
 import http.client
+import json
 from pprint import pprint
 import urllib.request
 
 site = "edoclib.gasrb.ru"
 img = "http://" + site + "/imgo.jpg?id="
-attrib = "&rH=059d0024b12efbc1e9a4faaf21435d6d&sID=G9sGCjjUWKoe2OpTF2VNP9bqOc60JuXwMkz+AvRh5JuiN86omg1O0/0dNqj2SiaE"
 
 def fix_str(n):
 	n = n.replace("/","")
@@ -23,10 +22,11 @@ def save_note(dir, note):
 	if (note != ''):
 		open(dir + note, 'a').close()
 
-def save(ps, n, d, i, note):
+def save(ps, n, d, i, note, st):
 	ID = 0
 	nf = fix_str(n)
-	folder = 'D://other/test2/{}/{}/{}/'.format(d, nf, i)
+	folder = '{}/{}/{}/{}/'.format(st, d, nf, i)
+	folder = os.path.join(os.getcwd(), folder)
 	for p in ps:
 		filename = '{}.jpg'.format(ID)
 		save_file(p, folder, filename)
@@ -42,7 +42,7 @@ def get_id(data, name, district, interval, place_id):
 			ID += 1
 	return 0
 
-def start(query):
+def start(query, key, st):
 	conn = http.client.HTTPConnection(site)
 	conn.request("GET", query)
 	r1 = conn.getresponse()
@@ -53,10 +53,10 @@ def start(query):
 		return
 	
 	for place in data["places"]:
-		if not 'pictures' in place:
-			pprint("Skipping {} since it has to pictures".format(place))
-			continue
 		name = place["name"]
+		if not 'pictures' in place:
+			pprint("Skipping {} since it has to pictures".format(name))
+			continue
 		district = place["district"]
 		interval = place["interval"]
 		place_id = place["id"]
@@ -69,6 +69,6 @@ def start(query):
 		pictures = []
 		for picture in place["pictures"]:
 			ID = picture["id"]
-			URL = img + ID + attrib
+			URL = img + ID + key
 			pictures.append(URL)
-		save(pictures, name, district, interval, note)	
+		save(pictures, name, district, interval, note, st)
