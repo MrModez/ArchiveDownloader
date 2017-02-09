@@ -1,4 +1,4 @@
-import archive_downloader
+import downloader
 import codecs
 import datetime
 import json
@@ -28,4 +28,4 @@ for name_raw in names:
 	pprint("Checking {}".format(name_raw))
 	date = datetime.datetime.now()
 	st = date.strftime("%Y-%m-%d %H-%M-%S")  
-	archive_downloader.start(query, key, st)
+	downloader.start(query, key, st)
