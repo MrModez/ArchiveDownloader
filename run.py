@@ -21,11 +21,11 @@ names = []
 for name in names_raw:
 	names.extend(name.split(', '))
 
+date = datetime.datetime.now()
+st = date.strftime("%Y-%m-%d %H-%M-%S")  
 for name_raw in names:
 	name_fix = name_raw[:-2]
 	name = urllib.parse.quote_plus(name_fix)
 	query = "/?places={}&mode=1&fe=1&_y0={}&_y1={}&_p={}&_d={}&_dn=&_n=&pNo=1&cnt=1&pSz=100&rc=4".format(name, y0, y1, province, dist)
 	pprint("Checking {}".format(name_raw))
-	date = datetime.datetime.now()
-	st = date.strftime("%Y-%m-%d %H-%M-%S")  
 	downloader.start(query, key, st)
